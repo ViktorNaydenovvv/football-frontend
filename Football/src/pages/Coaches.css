@@ -1,0 +1,9 @@
+.coaches {
+    padding-top: 10vh;
+}
+
+.coaches .coaches-ul {
+    padding: 20px;
+    overflow: hidden;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,74 @@
+.coach h1 {
+    background-color: #083697;
+    text-align: center;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 300;
+    padding: 15px;
+    border-radius: 20px 20px 0 0;
+}
+
+.coach img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #000000;
+    background-color: #ffffffd1;
+    padding: 15px;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    margin-bottom: 15px;
+}
+
+
+.coach form {
+    flex-wrap: wrap;
+    background-color: #081c3e;
+    text-align: center;
+    color: #ffffff;
+    padding: 20px 0;
+    border-radius: 0 0 20px 20px;
+}
+
+.coach form li {
+    margin-top: 25px;
+}
+
+.coach form label {
+    width: 90%;
+    text-align: left;
+    padding: 0;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+}
+
+.coach form input,
+.coach form select {
+    text-align: left;
+    font-size: 1.15rem;
+    padding: 10px;
+    border-radius: 10px;
+    width: 90%;
+}
+
+.coach form input {
+    margin-bottom: 15px;
+}
+
+.coach form button {
+    font-size: 1.25rem;
+    padding: 10px;
+    border: none;
+    background-color: #083697;
+    color: #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    margin: 50px 0;
+}
+
+.coach form button:hover {
+    background-color: #ffffff;
+    color: #083697;
+}

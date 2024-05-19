@@ -1,0 +1,9 @@
+.players {
+    padding-top: 10vh;
+}
+
+.players .players-ul {
+    padding: 20px;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
