@@ -1,7 +1,7 @@
 import "./Login.css";
 
-import Form from "../components/Form";
 import axios from "axios";
+import Form from "../components/Form";
 
 import { useContext, useRef } from "react";
 import GlobalContext from "../store/GlobalContext";
@@ -12,7 +12,7 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    const { players, setProfile } = useContext(GlobalContext);
+    const { players, setProfile, setToken } = useContext(GlobalContext);
     console.log(players);
 
     const emailRef = useRef(null);
@@ -34,11 +34,18 @@ export default function Login() {
 
         try {
             const headers = { 'Content-Type': 'application/json' };
-            const response = await axios.post('http://localhost:4000/login', formData, headers);
+            const response = await axios.post('http://localhost:8080/api/v1/auth/signin', {
+                email: emailRef.current.value,
+                password: passwordRef.current.value
+            
+            }, headers);
             setToken(response.data.token);
-            setProfile(response.data.profile);
+            console.log('USER');
+            console.log(response.data.user);
+            setProfile(response.data.user);
             navigate('/profile');
         } catch (error) {
+            console.error(error);
             console.warn("Could not fetch data from the server.");
             console.log(emailRef.current.value);
             const profile = players.find(p => p.user.email == emailRef.current.value);

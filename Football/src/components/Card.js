@@ -1,28 +1,12 @@
 import { useContext } from 'react';
-import './Card.css';
 import GlobalContext from '../store/GlobalContext';
+import './Card.css';
 
 export default function Card({ player, coach }) {
-
-    let { profile, setProfile } = useContext(GlobalContext);
-
     if (player) {
         return (
             <li className="card flex-column">
                 <img src={player.user.photo} />
-                <img className="icon"
-                    src={profile?.likes.includes(player.user.username) ?
-                        "icons/like.png" : "icons/heart.png"}
-                    onClick={() => {
-                        console.log(profile)
-                        if (profile?.likes.includes(player.user.username)) {
-                            profile.likes = profile?.likes.filter( p => p !== player.user.username);
-                            setProfile({ ...profile });
-                        } else {
-                            profile?.likes.push(player.user.username);
-                            setProfile({ ...profile });
-                        }
-                    }} />
                 <p>{player.user.username}</p>
                 <p>{player.teamName} - {player.position}</p>
                 <ul className="flex">

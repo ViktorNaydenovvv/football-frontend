@@ -9,7 +9,7 @@ export default function Coach() {
 
     const navigate = useNavigate();
 
-    let { coaches, signup, profile, setToken, setCoaches, setProfile } = useContext(GlobalContext);
+    let { signup, profile, setToken, setProfile } = useContext(GlobalContext);
 
     const teamRef = useRef(null);
     const typeRef = useRef(null);
@@ -38,6 +38,7 @@ export default function Coach() {
             const headers = { 'Content-Type': 'application/json' };
             const response = await axios.post('http://localhost:4000/signup', formData, headers);
             setToken(response.data.token);
+            localStorage.setItem('token', response.data.token);
             navigate('/profile');
         } catch (error) {
             console.warn("Could not fetch data to the server.");

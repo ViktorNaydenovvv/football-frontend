@@ -1,16 +1,11 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 const GlobalContext = createContext();
-
-import Players from '../data/footballers.json';
-import Coaches from '../data/coaches.json';
 
 
 export function GlobalContextProvider(props) {
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [coaches, setCoaches]         = useState(Coaches);
-  const [players, setPlayers]         = useState(Players);
   const [profile, setProfile]         = useState(null);
   const [token, setToken]             = useState(null);
   
@@ -20,18 +15,21 @@ export function GlobalContextProvider(props) {
     type: undefined
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
   const context = {
     signup: signup,
     token: token,
     profile: profile,
-    players: players,
-    coaches: coaches,
     searchQuery: searchQuery,
     setSignup: setSignup,
     setToken: setToken,
     setProfile: setProfile,
-    setPlayers: setPlayers,
-    setCoaches: setCoaches,
     setSearchQuery: setSearchQuery
   };
 

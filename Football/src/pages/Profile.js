@@ -1,15 +1,15 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import Header from '../components/Header';
-import './Profile.css';
-import GlobalContext from '../store/GlobalContext';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import GlobalContext from '../store/GlobalContext';
+import './Profile.css';
 
 export default function Profile() {
 
     const navigate = useNavigate();
 
-    const { token, players, coaches, profile, setProfile, setPlayers, setCoaches, setToken } = useContext(GlobalContext); 
+    const { token, profile, setProfile, setToken } = useContext(GlobalContext); 
 
     const [source, setSource] = useState(profile.user.photo);
 
@@ -57,45 +57,40 @@ export default function Profile() {
         
         e.preventDefault();
 
-        const formData = new FormData();
-        mapping.forEach(obj => formData.append(obj.name, obj.value));
+        const newProfile = mapping.map((obj) => ({
+          [obj.name]: obj.ref.current.value,
+        }));
+
+        const newProfileObject = Object.assign({}, ...newProfile);
+
+        for (const key in newProfileObject) {
+            if (!isNaN(newProfileObject[key])) {
+                newProfileObject[key] = parseInt(newProfileObject[key]);
+            }
+        }
 
         try {
-            const headers  = { 'Content-Type': 'application/json', 'Authorization' : token};
-            const response = await axios.put('http://localhost:4000/user', formData, headers);
+            const response = await axios.put(
+              `http://localhost:8080/api/v1/footballers/${profile.id}`,
+              {
+                ...newProfileObject,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                },
+              }
+            );
             if(response.status == 200) {
+                setProfile(response.data);
                 console.log("Changes saved successfully.");
             } else {
                 console.warn("Changes were not saved on the server:");
                 console.warn("Error:", response.data);
             }
         } catch(error) {
-            
-            console.warn("Could not fetch data to the server.");
-            
-            const u = (profile.user.userType === "FOOTBALLER" ? players : coaches )
-                .find(p => p.user.username == profile.user.username);
-            
-            if(u) {
-
-                mapping.forEach(obj => {
-                    u[obj.name]  = obj.ref.current.value;
-                    profile[obj.name] = obj.ref.current.value;
-                })
-
-                console.log("Profile updated locally.");
-
-                setProfile({ ...profile });
-
-                profile.user.userType === "FOOTBALLER" && setPlayers([ ...players ]);
-                profile.user.userType !== "FOOTBALLER" && setCoaches([ ...coaches ]);
-
-                profile.user.userType === "FOOTBALLER" && navigate('/players');
-                profile.user.userType !== "FOOTBALLER" && navigate('/coaches');
-
-            } else {
-                console.warn("User was not found.");
-            }
+            console.error("Error while saving changes:", error);
         }
 
     }

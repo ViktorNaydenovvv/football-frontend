@@ -27,11 +27,6 @@ export default function Header({ selection }) {
                             Coaches
                         </Link>
                     </li>
-                    <li className={selection == 3 && "selected"}>
-                        <Link to="/favorites">
-                            Favorites
-                        </Link>
-                    </li>
                 </ul>
                 <input onChange={(e) => setSearchQuery(e.target.value)} type="text" placeholder="Search by name"/>
                 <button onClick={()  => {
